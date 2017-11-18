@@ -29,7 +29,8 @@ As a follow up to the `throw` expressions [proposal](https://github.com/tc39/pro
 this strawman seeks to explore the feasability of defining expression-forms for other statements. 
 To frame this discussion and establish an overall scope for this proposal, at this time we are only
 considering expression forms for a limited set of statements. As such, all declarations that do not
-already have an expression form are out of scope for the purposes of this proposal.
+already have an expression form are out of scope for the purposes of this proposal, though they may
+be explored in a later proposal.
 
 ## Status
 
@@ -42,10 +43,12 @@ _For more information see the [TC39 proposal process](https://tc39.github.io/pro
 
 * Ron Buckton (@rbuckton)
 
-# Leaf Statements
+# Simple Statements
 
-For the purposes of this proposal, a "Leaf Statement" is a _Statement_ that does not 
-directly contain other statements.
+Simple statements are those ECMAScript statements that do not directly contain other statements 
+(`throw`, `return`, `break`, `continue`, `debugger`). The completion semantics for these 
+statements are fairly trivial to convert to expression semantics. As a result, these simple 
+statements are the primary focus of this proposal.
 
 ## `throw` operator
 
@@ -94,7 +97,7 @@ in the midst of any expression:
 
 ```js
 function checkOpts(opts) {
-    let x = opts?.x ?? return false;
+    let x = opts && opts.x || return false;
     /* ...do something with x... */
 }
 ```
@@ -115,7 +118,7 @@ _IterationStatement_:
 ```js
 switch (cond) {
   case 0:
-    const y = x.y ?? break;
+    const y = x.y || break;
     // ...do something with `y`...
     break;
 }
@@ -139,7 +142,7 @@ iteration within an _IterationStatement_:
 
 ```js
 for (const x of array) {
-    const y = x.y ?? continue; // continue if `x.y` is not present.
+    const y = x.y || continue; // continue if `x.y` is not present.
 }
 ```
 
@@ -160,7 +163,7 @@ Allowing a `debugger` operation in an expression position would allow for an imm
 into an attached debugger at the current expression:
 
 ```js
-const y = x.y ?? debugger; // break into debugger if `x.y` is not present.
+const y = x.y || debugger; // break into debugger if `x.y` is not present.
 ```
 
 ### Grammar
@@ -180,10 +183,10 @@ ExpressionStatement[Yield, Await]:
     `throw`, `return`, `break`, `continue`, `throw`, `debugger` }] Expression[+In, ?Yield, ?Await]
 ```
 
-# Branching Statements
+# Compound Statements
 
-Branching statements are those statements that directly contain one or more other statement. This 
-category includes all control-flow statements, iteration statements, `with` statements, and blocks. 
+Compound statements are those statements that directly contain one or more other statement. This 
+category includes all control-flow statements (`if`, `switch`, `try`), iteration statements (`do`, `while`, `for`), `with` statements, and blocks. 
 
 This category is not yet fully explored and requires further investigation to determine what 
 syntax and semantics would best fit each of these kinds of statements if they were to have an 
@@ -195,7 +198,8 @@ part of that proposal.
 
 # Declaration Statements
 
-Declaration statements are currently out-of-scope for this proposal.
+Declaration statements are currently out-of-scope for this proposal, though they may be explored in
+a later proposal.
 
 <!-- The following are shared links used throughout the README: -->
 
