@@ -32,6 +32,8 @@ considering expression forms for a limited set of statements. As such, all decla
 already have an expression form are out of scope for the purposes of this proposal, though they may
 be explored in a later proposal.
 
+- [Slides](https://docs.google.com/presentation/d/1ZZHJU4MgjfGqzfUrXx-lUNCcffLdqb35CG4oszQo4l4)
+
 ## Status
 
 **Stage:** 0  
